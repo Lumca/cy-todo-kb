@@ -9,11 +9,10 @@
 
 describe('Assignment', function () {
   before(() => {
-    cy.visit('/');
-  });
+    cy.visit('http://127.0.0.1:8888/')
+  })
 
   it('tests something', () => {
-
-  });
-
+    cy.contains('todos')
+  })
 })
