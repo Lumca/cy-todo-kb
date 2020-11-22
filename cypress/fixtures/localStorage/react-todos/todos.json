@@ -1,0 +1,51 @@
+{
+  "activeTodo": {
+    "key": "react-todos",
+    "value": [{
+      "id":"b60c747d-3750-4eba-a5db-ac5ad334c457",
+      "title":"First active todo",
+      "completed":false
+    }]
+  },
+    "completedTodo": {
+      "key": "react-todos",
+      "value": [{
+        "id":"b60c747d-3750-4eba-a5db-ac5ad334c457",
+        "title":"First completed todo",
+        "completed":true
+      }]
+    },
+  "defaultTodos": {
+    "key": "react-todos",
+    "value": [{
+        "id":"b60c747d-3750-4eba-a5db-ac5ad334c457",
+        "title":"First todo active",
+        "completed":false
+      },
+      {
+        "id":"0accd465-76d6-44f9-81e2-79be1a059f64",
+        "title":"Second todo active",
+        "completed":false
+      },
+      {
+        "id":"cdef62cc-2cad-46cc-8dca-7ae35c77041f",
+        "title":"Third todo active",
+        "completed":false
+      },
+      {
+        "id":"b60c747d-3750-4eba-a5db-ac5ad334c457",
+        "title":"Fourth todo completed",
+        "completed":true
+      },
+      {
+        "id":"0accd465-76d6-44f9-81e2-79be1a059f64",
+        "title":"Fifth todo completed",
+        "completed":true
+      },
+      {
+        "id":"cdef62cc-2cad-46cc-8dca-7ae35c77041f",
+        "title":"Sixth todo completed",
+        "completed":true
+      }]
+  }
+}
