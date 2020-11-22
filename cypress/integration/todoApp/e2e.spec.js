@@ -236,7 +236,7 @@ describe('E2E tests todo app', function () {
      * Clears selected todo and verifies its deletion
      */
     cy.get('.main').should('exist')
-    cy.clickClearCompletedButton('First completed todo')
+    cy.clickClearCompletedButton()
     cy.get('.main').should('not.exist')
     cy.contains('First completed todo').should('not.exist')
 
