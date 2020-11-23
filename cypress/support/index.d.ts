@@ -99,5 +99,26 @@ declare namespace Cypress {
          * cy.checkTodoCounterLabelCount()
          */
         checkTodoCounterLabelCount(count: string): Chainable<any>
+
+        /**
+         * Sets app with active todo
+         * @example
+         * cy.setActiveTodo()
+         */
+        setActiveTodo(): Chainable<any>
+
+        /**
+         * Sets app with completed todo
+         * @example
+         * cy.setCompletedTodo()
+         */
+        setCompletedTodo(): Chainable<any>
+
+        /**
+         * Sets app with default todos
+         * @example
+         * cy.setActiveTodo()
+         */
+        setDefaultTodos(): Chainable<any>
     }
 }

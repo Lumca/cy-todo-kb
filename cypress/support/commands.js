@@ -36,22 +36,25 @@ Cypress.Commands.add('deleteTodo', (todoName) => {
  */
 
 Cypress.Commands.add('clickAllButton', () => {
-  cy.get('[href="#/"]').click()
+  cy.get('.filters').contains('All').click()
   cy.url().should('include', '#/')
+  cy.contains('All').should('have.class', 'selected')
 })
 
 Cypress.Commands.add('clickActiveButton', () => {
-  cy.get('[href="#/active"]').click()
+  cy.get('.filters').contains('Active').click()
   cy.url().should('include', '#/active')
+  cy.contains('Active').should('have.class', 'selected')
 })
 
 Cypress.Commands.add('clickCompletedButton', () => {
-  cy.get('[href="#/completed"]').click()
+  cy.get('.filters').contains('Completed').click()
   cy.url().should('include', '#/completed')
+  cy.contains('Completed').should('have.class', 'selected')
 })
 
 Cypress.Commands.add('clickClearCompletedButton', () => {
-  cy.get('.clear-completed').click()
+  cy.get('.clear-completed').contains('Clear completed').click()
 })
 
 /**
@@ -99,4 +102,26 @@ Cypress.Commands.add('checkTodoCounterLabelCount', (count) => {
     cy.get('.todo-count').contains('items')
     cy.get('.todo-count').contains('left')
   }
+})
+
+/**
+ * Commands for setting up todo data
+ */
+
+Cypress.Commands.add('setActiveTodo', () => {
+  cy.fixture('localStorage/react-todos/todos').then((todo) => {
+    localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
+  })
+})
+
+Cypress.Commands.add('setCompletedTodo', () => {
+  cy.fixture('localStorage/react-todos/todos').then((todo) => {
+    localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
+  })
+})
+
+Cypress.Commands.add('setDefaultTodos', () => {
+  cy.fixture('localStorage/react-todos/todos').then((todo) => {
+    localStorage.setItem(todo.defaultTodos.key, JSON.stringify(todo.defaultTodos.value))
+  })
 })
