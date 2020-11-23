@@ -112,16 +112,19 @@ Cypress.Commands.add('setActiveTodo', () => {
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
   })
+  cy.reload()
 })
 
 Cypress.Commands.add('setCompletedTodo', () => {
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
   })
+  cy.reload()
 })
 
 Cypress.Commands.add('setDefaultTodos', () => {
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.defaultTodos.key, JSON.stringify(todo.defaultTodos.value))
   })
+  cy.reload()
 })
