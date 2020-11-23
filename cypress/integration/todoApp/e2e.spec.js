@@ -9,270 +9,337 @@
 // @ts-check
 
 describe('E2E tests todo app', function () {
+
   beforeEach(() => {
     cy.visit('/')
   })
 
-  it('Load page, check there are no todos', () => {
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.get('.section').should('not.exist')
-
-    cy.createTodo('First todo')
-    cy.clickSelectTodo('First todo')
-    cy.editTodo('First todo', 'Edited Todo')
-    cy.clickSelectTodo('Edited Todo')
-    cy.deleteTodo('Edited Todo')
+  context('No todo', () =>{
+    it('Checks there are no todos and everything is showed when firstly opened', () => {
+      /**
+       * Checks if there are all classes except no todos
+       */
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.get('.section').should('not.exist')
+    })
   })
 
-  it('Create active todo, checks its right showing', () => {
-    /**
-     * Creates todo and verifies its creation
-     */
-    cy.createTodo('First todo')
-    cy.get('.main').should('exist').contains('First todo')
+  context('Active todo', () =>{
+    it('Create one active todo, checks its right showing', () => {
+      /**
+       * Creates todo and verifies its creation
+       */
+      cy.createTodo('First todo')
+      cy.get('.main').should('exist').contains('First todo')
 
-    /**
-     * Verifies classes and counter in All page
-     */
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      /**
+       * Verifies classes and counter in All page
+       */
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
 
-    /**
-     * Goes to Active page and verifies todo, classes and counter
-     */
-    cy.clickActiveButton()
-    cy.get('.main').should('exist').contains('First todo')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      /**
+       * Goes to Active page and verifies todo, classes and counter
+       */
+      cy.clickActiveButton()
+      cy.get('.main').should('exist').contains('First todo')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
 
-    /**
-     * Goes to Completed page and verifies todo, classes and counter
-     */
-    cy.clickCompletedButton()
-    cy.contains('First todo').should('not.be.visible')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      /**
+       * Goes to Completed page and verifies todo, classes and counter
+       */
+      cy.clickCompletedButton()
+      cy.contains('First todo').should('not.be.visible')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+    })
   })
 
-  it('Edits it and checks its showing right', () => {
+  context('Selecting todo', () =>{
+    it('Selects one todo and checks if its selected', () => {
 
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
+      cy.setActiveTodo()
+
+      /**
+       * Selects todo and sets it completed and verifies its completion
+       */
+      cy.clickSelectTodo('First active todo')
+      cy.get('.main').should('exist')
+      cy.get('.completed').contains('First active todo')
+
+      /**
+       * Verifies classes and counter in All page
+       */
+      cy.checkTodoCounterLabelCount('0')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+      cy.checkClearCompletedButtonExists()
+
+      /**
+       * Goes to Active page and verifies todo, classes and counter
+       */
+      cy.clickActiveButton()
+      cy.contains('First active todo').should('not.be.visible')
+      cy.checkTodoCounterLabelCount('0')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+      cy.checkClearCompletedButtonExists()
+
+      /**
+       * Goes to Completed page and verifies todo, classes and counter
+       */
+      cy.clickCompletedButton()
+      cy.get('.main').should('be.visible')
+      cy.contains('First active todo').should('be.visible')
+      cy.checkTodoCounterLabelCount('0')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+      cy.checkClearCompletedButtonExists()
     })
 
-    /**
-     * Edits todo and verifies its creation
-     */
-    cy.editTodo('First active todo', 'Edited todo')
-    cy.get('.main').should('exist').contains('Edited todo')
+    it('Unselects one todo and checks if its not selected', () => {
 
-    /**
-     * Verifies classes and counter in All page
-     */
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      cy.setCompletedTodo()
 
-    /**
-     * Goes to Active page and verifies todo, classes and counter
-     */
-    cy.clickActiveButton()
-    cy.get('.main').should('exist').contains('Edited todo')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      /**
+       * Selects todo and sets it completed and verifies its completion
+       */
+      cy.clickSelectTodo('First completed todo')
+      cy.get('.main').should('exist')
+      cy.get('.main').contains('First completed todo')
 
-    /**
-     * Goes to Completed page and verifies todo, classes and counter
-     */
-    cy.clickCompletedButton()
-    cy.contains('Edited todo').should('not.be.visible')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-  })
+      /**
+       * Verifies classes and counter in All page
+       */
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
 
-  it('Deletes todo and checks if its not showing', () => {
+      /**
+       * Goes to Active page and verifies todo, classes and counter
+       */
+      cy.clickActiveButton()
+      cy.contains('First completed todo').should('be.visible')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
 
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
+      /**
+       * Goes to Completed page and verifies todo, classes and counter
+       */
+      cy.clickCompletedButton()
+      cy.get('.main').should('be.visible')
+      cy.contains('First completed todo').should('not.be.visible')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
     })
 
-    /**
-     * Deletes todo and verifies its deletion
-     */
-    cy.deleteTodo('First active todo')
-    cy.get('.main').should('not.exist')
-    cy.contains('First active todo').should('not.exist')
+    it('Clears one selected todo and checks if its deleted', () => {
 
-    /**
-     * Verifies classes and counter
-     */
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.get('.section').should('not.exist')
+      cy.setCompletedTodo()
+
+      /**
+       * Clears selected todo and verifies its deletion
+       */
+      cy.get('.main').should('exist')
+      cy.clickClearCompletedButton()
+      cy.get('.main').should('not.exist')
+      cy.contains('First completed todo').should('not.exist')
+
+      /**
+       * Verifies classes and counter
+       */
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.get('.section').should('not.exist')
+    })
   })
 
-  it('Selects todo and checks if its selected', () => {
+  context('Deleted todo', () =>{
+    it('Deletes one todo and checks if its not showing', () => {
 
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
+      cy.setActiveTodo()
+
+      /**
+       * Deletes todo and verifies its deletion
+       */
+      cy.deleteTodo('First active todo')
+      cy.get('.main').should('not.exist')
+      cy.contains('First active todo').should('not.exist')
+
+      /**
+       * Verifies classes and counter
+       */
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.get('.section').should('not.exist')
+    })
+  })
+
+  context('Editing todos', () => {
+    it('Edits one todo and checks its showing right', () => {
+
+      cy.setActiveTodo()
+
+      /**
+       * Edits todo and verifies its creation
+       */
+      cy.editTodo('First active todo', 'Edited todo')
+      cy.get('.main').should('exist').contains('Edited todo')
+
+      /**
+       * Verifies classes and counter in All page
+       */
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+
+      /**
+       * Goes to Active page and verifies todo, classes and counter
+       */
+      cy.clickActiveButton()
+      cy.get('.main').should('exist').contains('Edited todo')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
+
+      /**
+       * Goes to Completed page and verifies todo, classes and counter
+       */
+      cy.clickCompletedButton()
+      cy.contains('Edited todo').should('not.be.visible')
+      cy.checkTodoCounterLabelCount('1')
+      cy.checkTodoLabelExists()
+      cy.checkNewTodoInputExists()
+      cy.checkFooterLabelExists()
+      cy.checkFilterLabelExists()
     })
 
-    /**
-     * Selects todo and sets it completed and verifies its completion
-     */
-    cy.clickSelectTodo('First active todo')
-    cy.get('.main').should('exist')
-    cy.get('.completed').contains('First active todo')
+    it('Cancel editing of one completed todo with escape key', () => {
 
-    /**
-     * Verifies classes and counter in All page
-     */
-    cy.checkTodoCounterLabelCount('0')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-    cy.checkClearCompletedButtonExists()
+      cy.setCompletedTodo()
 
-    /**
-     * Goes to Active page and verifies todo, classes and counter
-     */
-    cy.clickActiveButton()
-    cy.contains('First active todo').should('not.be.visible')
-    cy.checkTodoCounterLabelCount('0')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-    cy.checkClearCompletedButtonExists()
+      /**
+       * Begin editing todo and verifies editing class
+       */
+      cy.contains('First completed todo').dblclick()
+      cy.get('.editing').contains('First completed todo')
 
-    /**
-     * Goes to Completed page and verifies todo, classes and counter
-     */
-    cy.clickCompletedButton()
-    cy.get('.main').should('be.visible')
-    cy.contains('First active todo').should('be.visible')
-    cy.checkTodoCounterLabelCount('0')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-    cy.checkClearCompletedButtonExists()
-  })
-
-  it('Unselects todo and checks if its not selected', () => {
-
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
+      /**
+       * Cancels editing todo verifies completed and view class
+       */
+      cy.get('.editing').type('{esc}')
+      cy.get('.completed').get('.view').contains('First completed todo')
     })
 
-    /**
-     * Selects todo and sets it completed and verifies its completion
-     */
-    cy.clickSelectTodo('First completed todo')
-    cy.get('.main').should('exist')
-    cy.get('.main').contains('First completed todo')
+    it('Deletes one todo after deleting all characters of todo wile editing', () => {
 
-    /**
-     * Verifies classes and counter in All page
-     */
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
+      cy.setCompletedTodo()
 
-    /**
-     * Goes to Active page and verifies todo, classes and counter
-     */
-    cy.clickActiveButton()
-    cy.contains('First completed todo').should('be.visible')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-
-    /**
-     * Goes to Completed page and verifies todo, classes and counter
-     */
-    cy.clickCompletedButton()
-    cy.get('.main').should('be.visible')
-    cy.contains('First completed todo').should('not.be.visible')
-    cy.checkTodoCounterLabelCount('1')
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.checkFilterLabelExists()
-  })
-
-  it('Clears selected todo and checks if its not selected', () => {
-
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
+      /**
+       * Begin editing and clears todo and verifies editing class
+       */
+      cy.contains('First completed todo').dblclick().focused().clear().type('{enter}')
+      cy.get('.editing').should('not.exist')
+      cy.contains('First completed todo').should('not.exist')
     })
-
-    /**
-     * Clears selected todo and verifies its deletion
-     */
-    cy.get('.main').should('exist')
-    cy.clickClearCompletedButton()
-    cy.get('.main').should('not.exist')
-    cy.contains('First completed todo').should('not.exist')
-
-    /**
-     * Verifies classes and counter
-     */
-    cy.checkTodoLabelExists()
-    cy.checkNewTodoInputExists()
-    cy.checkFooterLabelExists()
-    cy.get('.section').should('not.exist')
   })
 
-  it('Cancel editing completed todo', () => {
+  context('Focus on input', () => {
+    it('Default focus on todo input', () => {
 
-    cy.fixture('localStorage/react-todos/todos').then((todo) => {
-      localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
+      /**
+       * Tests input for adding todos is focused
+       */
+      cy.get('.new-todo').should('be.focused')
     })
-
-    /**
-     * Begin editing todo and verifies editing class
-     */
-    cy.contains('First completed todo').dblclick()
-    cy.get('.editing').contains('First completed todo')
-
-    /**
-     * Cancels editing todo verifies completed and view class
-     */
-    cy.get('.editing').type('{esc}')
-    cy.get('.completed').get('.view').contains('First completed todo')
   })
 
-  it('Focus on todo input', () => {
+  context('Back button', () => {
+    it('Redirects to right page after clicking back button', () => {
+      cy.setDefaultTodos()
 
-    /**
-     * Tests input for adding todos is focused
-     */
-    cy.get('.new-todo').should('be.focused')
+      /**
+       * Tests if back button work and shows previous page
+       */
+      cy.clickActiveButton()
+      cy.clickCompletedButton()
+      cy.clickAllButton()
+      /**
+       * Goes back to completed page
+       */
+      cy.go('back')
+      cy.url().should('include', '#/completed')
+
+      /**
+       * Goes back to Active page
+       */
+      cy.go('back')
+      cy.url().should('include', '#/active')
+
+      /**
+       * Goes back to All page
+       */
+      cy.go('back')
+      cy.url().should('include', '#/')
+    })
+  })
+  context('Local storage', () => {
+    it('Data persists after reloading page', () => {
+
+      /**
+       * Tests that local storage isnt deleted after reloading page
+       */
+      cy.fixture('localStorage/react-todos/todos').then((todo) => {
+        localStorage.setItem(todo.defaultTodos.key, JSON.stringify(todo.defaultTodos.value))
+      })
+
+      cy.reload()
+      /**
+       * Checks that todos arent deleted
+       */
+      cy.contains('First todo active')
+      cy.contains('Second todo active')
+      cy.contains('Third todo active')
+      cy.clickActiveButton()
+      cy.contains('First todo active')
+      cy.contains('Second todo active')
+      cy.contains('Third todo active')
+      cy.clickCompletedButton()
+      cy.contains('Fourth todo completed')
+      cy.contains('Fifth todo completed')
+      cy.contains('Sixth todo completed')
+    })
   })
 })
