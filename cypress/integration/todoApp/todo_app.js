@@ -348,14 +348,13 @@ describe('E2E tests todo app', function () {
     })
   })
   context('Local storage', () => {
-    it('Data persists after reloading page', () => {
+    it.only('Data persists after reloading page', () => {
 
       /**
        * Tests that local storage isnt deleted after reloading page
        */
       cy.setDefaultTodos()
 
-      cy.reload()
       /**
        * Checks that todos arent deleted
        */
@@ -372,9 +371,9 @@ describe('E2E tests todo app', function () {
       cy.contains('Third todo active')
       cy.get('.todo-list li').should('have.length', 3)
       cy.clickCompletedButton()
-      cy.contains('First todo active')
-      cy.contains('Second todo active')
-      cy.contains('Third todo active')
+      cy.contains('Fourth todo completed')
+      cy.contains('Fifth todo completed')
+      cy.contains('Sixth todo completed')
       cy.get('.todo-list li').should('have.length', 3)
     })
   })
