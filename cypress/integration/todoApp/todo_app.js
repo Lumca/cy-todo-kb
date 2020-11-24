@@ -33,6 +33,7 @@ describe('E2E tests todo app', function () {
        */
       cy.createTodo('First todo')
       cy.get('.main').should('exist').contains('First todo')
+      cy.get('.todo-list li').should('have.length', 1)
 
       /**
        * Verifies classes and counter in All page
@@ -48,6 +49,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickActiveButton()
       cy.get('.main').should('exist').contains('First todo')
+      cy.get('.todo-list li').should('have.length', 1)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -59,6 +61,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickCompletedButton()
       cy.contains('First todo').should('not.be.visible')
+      cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -78,6 +81,7 @@ describe('E2E tests todo app', function () {
       cy.clickSelectTodo('First active todo')
       cy.get('.main').should('exist')
       cy.get('.completed').contains('First active todo')
+      cy.get('.todo-list li').should('have.length', 1)
 
       /**
        * Verifies classes and counter in All page
@@ -94,6 +98,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickActiveButton()
       cy.contains('First active todo').should('not.be.visible')
+      cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('0')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -107,6 +112,7 @@ describe('E2E tests todo app', function () {
       cy.clickCompletedButton()
       cy.get('.main').should('be.visible')
       cy.contains('First active todo').should('be.visible')
+      cy.get('.todo-list li').should('have.length', 1)
       cy.checkTodoCounterLabelCount('0')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -125,6 +131,7 @@ describe('E2E tests todo app', function () {
       cy.clickSelectTodo('First completed todo')
       cy.get('.main').should('exist')
       cy.get('.main').contains('First completed todo')
+      cy.get('.todo-list li').should('have.length', 1)
 
       /**
        * Verifies classes and counter in All page
@@ -140,6 +147,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickActiveButton()
       cy.contains('First completed todo').should('be.visible')
+      cy.get('.todo-list li').should('have.length', 1)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -152,6 +160,7 @@ describe('E2E tests todo app', function () {
       cy.clickCompletedButton()
       cy.get('.main').should('be.visible')
       cy.contains('First completed todo').should('not.be.visible')
+      cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -170,6 +179,7 @@ describe('E2E tests todo app', function () {
       cy.clickClearCompletedButton()
       cy.get('.main').should('not.exist')
       cy.contains('First completed todo').should('not.exist')
+      cy.get('.todo-list li').should('have.length', 0)
 
       /**
        * Verifies classes and counter
@@ -192,6 +202,7 @@ describe('E2E tests todo app', function () {
       cy.deleteTodo('First active todo')
       cy.get('.main').should('not.exist')
       cy.contains('First active todo').should('not.exist')
+      cy.get('.todo-list li').should('have.length', 0)
 
       /**
        * Verifies classes and counter
@@ -213,6 +224,7 @@ describe('E2E tests todo app', function () {
        */
       cy.editTodo('First active todo', 'Edited todo')
       cy.get('.main').should('exist').contains('Edited todo')
+      cy.get('.todo-list li').should('have.length', 1)
 
       /**
        * Verifies classes and counter in All page
@@ -228,6 +240,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickActiveButton()
       cy.get('.main').should('exist').contains('Edited todo')
+      cy.get('.todo-list li').should('have.length', 1)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -239,6 +252,7 @@ describe('E2E tests todo app', function () {
        */
       cy.clickCompletedButton()
       cy.contains('Edited todo').should('not.be.visible')
+      cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
       cy.checkNewTodoInputExists()
@@ -255,12 +269,14 @@ describe('E2E tests todo app', function () {
        */
       cy.contains('First completed todo').dblclick()
       cy.get('.editing').contains('First completed todo')
+      cy.get('.todo-list li').should('have.length', 1)
 
       /**
        * Cancels editing todo verifies completed and view class
        */
       cy.get('.editing').type('{esc}')
       cy.get('.completed').get('.view').contains('First completed todo')
+      cy.get('.todo-list li').should('have.length', 1)
     })
 
     it('Deletes one todo after deleting all characters of todo wile editing', () => {
@@ -273,6 +289,7 @@ describe('E2E tests todo app', function () {
       cy.contains('First completed todo').dblclick().focused().clear().type('{enter}')
       cy.get('.editing').should('not.exist')
       cy.contains('First completed todo').should('not.exist')
+      cy.get('.todo-list li').should('have.length', 0)
     })
   })
 
@@ -301,18 +318,33 @@ describe('E2E tests todo app', function () {
        */
       cy.go('back')
       cy.url().should('include', '#/completed')
+      cy.contains('Fourth todo completed')
+      cy.contains('Fifth todo completed')
+      cy.contains('Sixth todo completed')
+      cy.get('.todo-list li').should('have.length', 3)
 
       /**
        * Goes back to Active page
        */
       cy.go('back')
       cy.url().should('include', '#/active')
+      cy.contains('First todo active')
+      cy.contains('Second todo active')
+      cy.contains('Third todo active')
+      cy.get('.todo-list li').should('have.length', 3)
 
       /**
        * Goes back to All page
        */
       cy.go('back')
       cy.url().should('include', '#/')
+      cy.contains('First todo active')
+      cy.contains('Second todo active')
+      cy.contains('Third todo active')
+      cy.contains('Fourth todo completed')
+      cy.contains('Fifth todo completed')
+      cy.contains('Sixth todo completed')
+      cy.get('.todo-list li').should('have.length', 6)
     })
   })
   context('Local storage', () => {
@@ -321,9 +353,7 @@ describe('E2E tests todo app', function () {
       /**
        * Tests that local storage isnt deleted after reloading page
        */
-      cy.fixture('localStorage/react-todos/todos').then((todo) => {
-        localStorage.setItem(todo.defaultTodos.key, JSON.stringify(todo.defaultTodos.value))
-      })
+      cy.setDefaultTodos()
 
       cy.reload()
       /**
@@ -332,14 +362,20 @@ describe('E2E tests todo app', function () {
       cy.contains('First todo active')
       cy.contains('Second todo active')
       cy.contains('Third todo active')
+      cy.get('.todo-list li').should('have.length', 3)
       cy.clickActiveButton()
       cy.contains('First todo active')
       cy.contains('Second todo active')
       cy.contains('Third todo active')
+      cy.get('.todo-list li').should('have.length', 3)
       cy.clickCompletedButton()
+      cy.contains('First todo active')
+      cy.contains('Second todo active')
+      cy.contains('Third todo active')
       cy.contains('Fourth todo completed')
       cy.contains('Fifth todo completed')
       cy.contains('Sixth todo completed')
+      cy.get('.todo-list li').should('have.length', 6)
     })
   })
 })
