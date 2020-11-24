@@ -348,7 +348,7 @@ describe('E2E tests todo app', function () {
     })
   })
   context('Local storage', () => {
-    it.only('Data persists after reloading page', () => {
+    it('Data persists after reloading page', () => {
 
       /**
        * Tests that local storage isnt deleted after reloading page
