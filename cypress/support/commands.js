@@ -90,6 +90,9 @@ Cypress.Commands.add('checkClearCompletedButtonExists', () => {
 })
 
 Cypress.Commands.add('checkTodoCounterLabelCount', (count) => {
+  /**
+   * Custom checker for count in items counter
+   */
   cy.get('.todo-count').should('exist')
   if (count === '1') {
     cy.get('.todo-count').contains(count)
@@ -109,22 +112,40 @@ Cypress.Commands.add('checkTodoCounterLabelCount', (count) => {
  */
 
 Cypress.Commands.add('setActiveTodo', () => {
+  /**
+   * Loads data from fixture and inject it to local storage
+   */
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.activeTodo.key, JSON.stringify(todo.activeTodo.value))
   })
+  /**
+   * Reloads site to take local storage in effect
+   */
   cy.reload()
 })
 
 Cypress.Commands.add('setCompletedTodo', () => {
+  /**
+   * Loads data from fixture and inject it to local storage
+   */
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.completedTodo.key, JSON.stringify(todo.completedTodo.value))
   })
+  /**
+   * Reloads site to take local storage in effect
+   */
   cy.reload()
 })
 
 Cypress.Commands.add('setDefaultTodos', () => {
+  /**
+   * Loads data from fixture and inject it to local storage
+   */
   cy.fixture('localStorage/react-todos/todos').then((todo) => {
     localStorage.setItem(todo.defaultTodos.key, JSON.stringify(todo.defaultTodos.value))
   })
+  /**
+   * Reloads site to take local storage in effect
+   */
   cy.reload()
 })
