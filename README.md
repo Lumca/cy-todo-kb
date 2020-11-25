@@ -1,6 +1,7 @@
-Thank you for reviewing my homework!
-Please here is content
+## Thank you for reviewing my homework! Please here is content.
+
 ---
+
 ## Repo:
 https://github.com/Lumca/cy-todo-productboard
 ## Specs:
