@@ -1,16 +1,25 @@
-## Thank you for reviewing my homework! Please here is content.
+# Thank you for reviewing my homework!
 
----
+## Content:
 
-## Repo:
+Repo:
+
 https://github.com/Lumca/cy-todo-productboard
-## Specs:
+
+Specs:
+
 https://github.com/Lumca/cy-todo-productboard/wiki/Todo-app-specs
-## Project board:
+
+Project board:
+
 https://github.com/Lumca/cy-todo-productboard/projects/1
-## CI Github Actions:
+
+CI Github Actions:
+
 https://github.com/Lumca/cy-todo-productboard/actions
-## Github issues:
+
+Github issues:
+
 https://github.com/Lumca/cy-todo-productboard/issues
 
 ## Prerequisites
