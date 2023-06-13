@@ -1,4 +1,4 @@
-name: End-to-end tests Firefox
+name: End-to-end tests Edge
 on:
   push:
   workflow_dispatch:
@@ -8,10 +8,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Run E2E tests Firefox
+      - name: Run E2E tests Edge
         uses: cypress-io/github-action@v5
         with:
           start: "npm run start:ci"
           wait-on: "http://localhost:8888"
           config: baseUrl=http://localhost:8888
-          browser: firefox
+          browser: edge
