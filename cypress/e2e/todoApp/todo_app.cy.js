@@ -67,7 +67,7 @@ describe('Tests todo app', function () {
        * Goes to Completed page and verifies todo, classes and counter
        */
       cy.clickCompletedButton()
-      cy.contains(todo.activeTodo.value[0].title).should('not.be.visible')
+      cy.contains(todo.activeTodo.value[0].title).should('not.exist')
       cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
@@ -104,7 +104,7 @@ describe('Tests todo app', function () {
        * Goes to Active page and verifies todo, classes and counter
        */
       cy.clickActiveButton()
-      cy.contains(todo.activeTodo.value[0].title).should('not.be.visible')
+      cy.contains(todo.activeTodo.value[0].title).should('not.exist')
       cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('0')
       cy.checkTodoLabelExists()
@@ -166,7 +166,7 @@ describe('Tests todo app', function () {
        */
       cy.clickCompletedButton()
       cy.get('.main').should('be.visible')
-      cy.contains(todo.completedTodo.value[0].title).should('not.be.visible')
+      cy.contains(todo.completedTodo.value[0].title).should('not.exist')
       cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
@@ -260,7 +260,7 @@ describe('Tests todo app', function () {
        * Goes to Completed page and verifies todo, classes and counter
        */
       cy.clickCompletedButton()
-      cy.contains(editedTodo).should('not.be.visible')
+      cy.contains(editedTodo).should('not.exist')
       cy.get('.todo-list li').should('have.length', 0)
       cy.checkTodoCounterLabelCount('1')
       cy.checkTodoLabelExists()
