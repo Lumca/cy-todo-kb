@@ -9,7 +9,9 @@ jobs:
       - name: Run E2E tests Chrome
         uses: cypress-io/github-action@v5
         with:
-          start: "npm start"
+          start: | 
+            npm install --legacy-peer-deps
+            npm start
           wait-on: "http://localhost:8888"
           config: baseUrl=http://localhost:8888
           browser: chrome
