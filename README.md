@@ -1,5 +1,3 @@
-# Thank you for reviewing my homework!
-
 ## Content:
 
 Repo:
