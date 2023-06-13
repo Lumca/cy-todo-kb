@@ -2,23 +2,23 @@
 
 Repo:
 
-https://github.com/Lumca/cy-todo-productboard
+https://github.com/Lumca/cy-todo-kb
 
 Specs:
 
-https://github.com/Lumca/cy-todo-productboard/wiki/Todo-app-specs
+https://github.com/Lumca/cy-todo-kb/wiki/Todo-app-specs
 
 Project board:
 
-https://github.com/Lumca/cy-todo-productboard/projects/1
+https://github.com/Lumca/cy-todo-kb/projects/1
 
 CI Github Actions:
 
-https://github.com/Lumca/cy-todo-productboard/actions
+https://github.com/Lumca/cy-todo-kb/actions
 
 Github issues:
 
-https://github.com/Lumca/cy-todo-productboard/issues
+https://github.com/Lumca/cy-todo-kb/issues
 
 ## Prerequisites
 
